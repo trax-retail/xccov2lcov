@@ -55,14 +55,14 @@ extension XCCovFunction {
 
     private var namedFunction: String {
         """
-        FN:\(lineNumber), \(name)
-        FNDA:\(executionCount), \(name)
+        FN:\(lineNumber),\(name)
+        FNDA:\(executionCount),\(name)
         FNF:\(executableLines)
         FNH:\(coveredLines)
         """
     }
 
     private var unnamedFunction: String {
-        "DA:\(lineNumber), \(executionCount)"
+        "DA:\(lineNumber),\(executionCount)"
     }
 }
