@@ -3,7 +3,7 @@ import XCTest
 
 final class xccov2lcovTests: XCTestCase {
 
-    func testFunction() {
+    func testFunctionSimple() {
         let function = XCCovFunction(coveredLines: 1, executableLines: 2, lineCoverage: 3.0, executionCount: 4, lineNumber: 5, name: "fn")
 
         let expected = """
@@ -13,7 +13,7 @@ final class xccov2lcovTests: XCTestCase {
         XCTAssertEqual(function.lcov(context: XCCovContext()), expected)
     }
 
-    func testFunctionFullMode() {
+    func testFunctionFull() {
         let function = XCCovFunction(coveredLines: 1, executableLines: 2, lineCoverage: 3.0, executionCount: 4, lineNumber: 5, name: "fn")
 
         let expected = """
@@ -36,22 +36,20 @@ final class xccov2lcovTests: XCTestCase {
         XCTAssertEqual(function.lcov(context: XCCovContext()), expected)
     }
 
-    func testFile() {
+    func testFileSimple() {
         let function = XCCovFunction(coveredLines: 1, executableLines: 2, lineCoverage: 3.0, executionCount: 4, lineNumber: 5, name: "fn")
         let file = XCCovFile(coveredLines: 1, executableLines: 2, lineCoverage: 3.5, name: "filename", path: "filepath", functions: [function])
 
         let expected = """
                        SF:filepath
                        DA:5,4
-                       LF:2
-                       LH:1
                        end_of_record
                        """
 
         XCTAssertEqual(file.lcov(context: XCCovContext()), expected)
     }
 
-    func testFileFullMode() {
+    func testFileFull() {
         let function = XCCovFunction(coveredLines: 1, executableLines: 2, lineCoverage: 3.0, executionCount: 4, lineNumber: 5, name: "fn")
         let file = XCCovFile(coveredLines: 1, executableLines: 2, lineCoverage: 3.5, name: "filename", path: "filepath", functions: [function])
 
@@ -69,7 +67,7 @@ final class xccov2lcovTests: XCTestCase {
         XCTAssertEqual(file.lcov(context: XCCovContext(mode: .full)), expected)
     }
 
-    func testTarget() {
+    func testTargetSimple() {
         let fn1 = XCCovFunction(coveredLines: 1, executableLines: 2, lineCoverage: 3.0, executionCount: 4, lineNumber: 5, name: "fn1")
         let fn2 = XCCovFunction(coveredLines: 6, executableLines: 7, lineCoverage: 8.5, executionCount: 9, lineNumber: 10, name: "fn2")
         let file = XCCovFile(coveredLines: 1, executableLines: 2, lineCoverage: 3.5, name: "filename", path: "filepath", functions: [fn1, fn2])
@@ -79,8 +77,6 @@ final class xccov2lcovTests: XCTestCase {
                        SF:filepath
                        DA:5,4
                        DA:10,9
-                       LF:2
-                       LH:1
                        end_of_record
                        """
 
@@ -122,8 +118,6 @@ final class xccov2lcovTests: XCTestCase {
         let expected = """
                        SF:f1path
                        DA:5,4
-                       LF:2
-                       LH:1
                        end_of_record
                        """
 
@@ -139,8 +133,6 @@ final class xccov2lcovTests: XCTestCase {
         let expected = """
                        SF:baz.json
                        DA:5,4
-                       LF:2
-                       LH:1
                        end_of_record
                        """
 
@@ -150,10 +142,12 @@ final class xccov2lcovTests: XCTestCase {
 
     static var allTests = [(
         "testExample",
-        testFunction,
+        testFunctionSimple,
+        testFunctionFull,
         testUnnamedFunction,
-        testFile,
-        testTarget,
+        testFileSimple,
+        testFileFull,
+        testTargetSimple,
         testTargetFiltering,
         testPathTrimming),
     ]

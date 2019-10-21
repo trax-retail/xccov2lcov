@@ -46,13 +46,16 @@ extension XCCovTarget {
 
 extension XCCovFile {
     public func lcov(context: XCCovContext) -> String {
-        """
-        SF:\(path.trimmingPrefix(context.trimPath))
-        \(functions.map { $0.lcov(context: context)}.joined(separator: "\n"))
-        LF:\(executableLines)
-        LH:\(coveredLines)
-        end_of_record
-        """
+
+        [
+            "SF:\(path.trimmingPrefix(context.trimPath))",
+            "\(functions.map { $0.lcov(context: context)}.joined(separator: "\n"))",
+            context.mode == .full ? "LF:\(executableLines)" : nil,
+            context.mode == .full ? "LH:\(coveredLines)" : nil,
+            "end_of_record"
+        ]
+            .compactMap { $0 }
+            .joined(separator: "\n")
     }
 }
 
