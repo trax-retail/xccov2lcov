@@ -6,13 +6,21 @@
 import Foundation
 
 public
+enum Mode: String {
+    case simple = "simple"
+    case full = "full"
+}
+
+public
 struct XCCovContext {
     public let includedTargets: [String]
     public let trimPath: String
+    public let mode: Mode
 
-    public init(includedTargets: [String] = [], trimPath: String = "") {
+    public init(includedTargets: [String] = [], trimPath: String = "", mode: Mode = .simple) {
         self.includedTargets = includedTargets
         self.trimPath = trimPath
+        self.mode = mode
     }
 }
 
@@ -50,7 +58,7 @@ extension XCCovFile {
 
 extension XCCovFunction {
     public func lcov(context: XCCovContext) -> String {
-        name.isEmpty ? unnamedFunction : namedFunction
+        name.isEmpty || context.mode == .simple ? unnamedFunction : namedFunction
     }
 
     private var namedFunction: String {
