@@ -17,7 +17,7 @@ struct CmdError: Error, CustomStringConvertible {
 command(
     Argument<String>("inputFilename", description: "Input filename (output of `xccov view --report --json file.xcresult`)"),
     Option("trim-path", default: "", description: "Path to trim from start of paths in input file"),
-    Option<[String]>("include-targets", default: [], description: "Targets to include in output (default: all targets)"),
+    VariadicOption<String>("include-targets", default: "", description: "Targets to include in output (default: all targets)"),
     Option<String>("mode", default: "simple", description: "Output mode: 'simple' includes only DA records, 'full' includes 'FN*' records")
 ) {
     inputFilename, trimPath, includeTargets, mode in
