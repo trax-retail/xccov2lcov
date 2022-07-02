@@ -59,6 +59,14 @@ Before we can upload the data to Coveralls, we need to convert it to a format it
     swift run xccov2lcov cov.json > lcov.info
     ```
 
+    **NOTE** By default, all targets will be included in the output. If you only want to include certain targets, add an `--include-target` option for each target you want to include: 
+
+    ```bash
+    swift run xccov2lcov cov.json \
+      --include-target SomeTarget \
+      --include-target AnotherTarget > lcov.info
+    ```
+
 ### Uploading to Coveralls
 
 Finally, uploading to Coveralls happens during the automated build via the already mentioned [Coveralls Github Action](https://github.com/marketplace/actions/coveralls-github-action) by adding the following to `.github/workflows/main.yml`:
